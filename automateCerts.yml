@@ -1,0 +1,19 @@
+---
+- name: automate certificate renewals
+  hosts: localhost
+  connection: local
+
+
+  vars:
+    certNames2Renew: []
+    crtExpireCheckDate: "{{ '%Y-%m-%d %H:%M:%S' | strftime( ( ansible_date_time.epoch | int ) + ( 86400 * 30 )  ) }}"
+    execDebug: no
+    path: "{{ lookup('env', 'PWD') }}/files"
+    timestamp: "{{ '%Y-%m-%d' | strftime( ( ansible_date_time.epoch | int ) ) }}"
+
+  roles: 
+    - checkExpire  
+    - createCsrCert
+    - installNewKeysCerts
+
+     

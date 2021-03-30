@@ -1,0 +1,51 @@
+
+    - debug: 
+        msg: "{{item.value.host}}"
+      loop: "{{ certNames2Renew| dict2items }}"
+
+
+    - name: Import new SSL certificates
+      bigip_ssl_certificate:
+        name: "{{ item.value.commonName}}-{{timestamp}}"
+        provider:
+          user: "{{ username }}"
+          password: "{{ password }}"
+          server: "{{item.value.host}}"
+          validate_certs: no
+        partition: "{{ item.value.partition}}"
+        state: present
+        content: "{{ lookup('file', '{{crtName}}') | replace(',', '\n') }}"   
+      delegate_to: localhost
+      loop: "{{ certNames2Renew| dict2items }}"
+ 
+
+    - name: Import new SSL key
+      bigip_ssl_key:
+        name: "{{ item.value.commonName }}-{{timestamp}}"
+        partition: "{{ item.value.partition}}"
+        provider:
+          user: "{{ username }}"
+          password: "{{ password }}"
+          server: "{{item.value.host}}"
+          validate_certs: no
+        state: present
+        content: "{{ lookup('file', '{{ keyName }}')| replace(',', '\n') }}"
+      delegate_to: localhost
+      loop: "{{ certNames2Renew| dict2items }}"
+  
+
+    - name: Modify client SSL profile
+      bigip_profile_client_ssl:
+        cert_key_chain:
+          - cert: "{{ item.value.commonName }}-{{timestamp}}"
+            key:  "{{ item.value.commonName }}-{{timestamp}}"
+        name: "{{ item.key }}"
+        partition: "{{ item.value.partition}}"
+        provider:
+          user: "{{ username }}"
+          password: "{{ password }}"
+          server: "{{item.value.host}}"
+          validate_certs: no
+      delegate_to: localhost
+      loop: "{{ certNames2Renew| dict2items}}"
+

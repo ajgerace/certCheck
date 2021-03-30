@@ -1,0 +1,2 @@
+---
+    crtExpire: "{{ item.json.apiRawValues.expiration| replace(' GMT','') | to_datetime('%b %d %H:%M:%S %Y') }}"

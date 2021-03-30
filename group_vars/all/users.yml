@@ -1,0 +1,3 @@
+---
+   username: "{{ lookup('env', 'BIGIP_USERNAME') }}"
+   password: "{{ lookup('env','BIGIP_PASSWORD') }}"

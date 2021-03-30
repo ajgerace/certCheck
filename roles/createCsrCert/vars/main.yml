@@ -1,0 +1,6 @@
+---
+    certDays: 45
+    certExt: "subjectAltName=DNS:{{item.value.commonName }}"
+    certSubject: '/C=US/ST=Massachusetts/L=Boston/O=Acme Corp/OU=Engineering/CN={{ item.value.commonName }}'
+    crtName: "{{path}}/{{ item.value.commonName|trim }}-{{ timestamp }}.crt"
+    keyName: "{{path}}/{{ item.value.commonName|trim }}-{{ timestamp }}.key" 
