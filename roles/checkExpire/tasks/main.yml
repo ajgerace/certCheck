@@ -69,5 +69,5 @@
 
     - debug:
         msg: "certificate {{certNames2Renew }} is about to expire "
-      when: execDebug == "yes" && certNames2Renew | length > 0 
+      when: execDebug == "yes" and certNames2Renew | length > 0 
  
