@@ -12,8 +12,8 @@
     timestamp: "{{ '%Y-%m-%d' | strftime( ( ansible_date_time.epoch | int ) ) }}"
 
   roles: 
-    - checkExpire  
-    - createCsrCert
-    - installNewKeysCerts
+    - { role: checkExpire } 
+    - { role: createCsrCert, when: certNames2Renew| length > 0 }
+    - { role: installNewKeysCerts, when: certNames2Renew| length > 0 }
 
      
