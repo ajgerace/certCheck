@@ -13,9 +13,6 @@
       gitea.f5demo.org_clientssl:
         host: 192.168.0.45
         partition: Common
-      nginx.f5demo.org_clientssl: 
-        host: 192.168.0.45
-        partition: nginx
       registry_clientssl:
         host: 192.168.0.45
         partition: Common
