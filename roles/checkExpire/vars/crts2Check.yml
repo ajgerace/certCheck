@@ -5,16 +5,7 @@
         host: 192.168.0.49
         partition: Common
       bodgeit.f5demo.org_clientssl:
-        host: 192.168.0.45
-        partition: Common
-      drone.f5demo.org_clientssl:
-        host: 192.168.0.45
-        partition: Common
-      gitea.f5demo.org_clientssl:
-        host: 192.168.0.45
-        partition: Common
-      registry_clientssl:
-        host: 192.168.0.45
+        host: 192.168.0.49
         partition: Common
 
 
