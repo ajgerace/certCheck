@@ -50,3 +50,12 @@
       delegate_to: localhost
       loop: "{{ certNames2Renew| dict2items}}"
 
+    - name: save config
+      bigip_config:
+        save: yes
+        provider:
+          user: "{{ username }}"
+          password: "{{ password }}"
+          server: "{{item.value.host}}"
+          validate_certs: no
+      delegate_to: localhost        
