@@ -59,3 +59,4 @@
           server: "{{item.value.host}}"
           validate_certs: no
       delegate_to: localhost        
+      loop: "{{ certNames2Renew| dict2items}}"
