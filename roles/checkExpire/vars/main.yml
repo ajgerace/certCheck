@@ -1,2 +1,3 @@
 ---
     crtExpire: "{{ item.json.apiRawValues.expiration| replace(' GMT','') | to_datetime('%b %d %H:%M:%S %Y') }}"
+    crtExpireCheckDate: "{{ '%Y-%m-%d %H:%M:%S' | strftime( ( ansible_date_time.epoch | int ) + ( 86400 * 30 )  ) }}"

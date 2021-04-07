@@ -2,6 +2,7 @@
     - debug: 
         msg: "{{item.value.host}}"
       loop: "{{ certNames2Renew| dict2items }}"
+      when: execDebug == "yes"
 
 
     - name: Import new SSL certificates

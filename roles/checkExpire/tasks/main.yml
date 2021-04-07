@@ -20,6 +20,7 @@
     - name: debug listing of clientssl profile 
       debug: 
         var: clientsslList
+      when: execDebug == "yes"
 
     - name: Retrieve certificate expiration
       uri:
@@ -32,40 +33,16 @@
       loop: "{{clientsslList.results  }}"
       register: cert 
 
-
-#    - name: Retrieve certificate expiration
-#      uri:
-#        url: "https://{{ item.value['host'] }}/mgmt/tm/sys/crypto/cert/~{{ item.json.partition }}~{{ item.key }}"
-#        method: GET 
-#        user:  "{{username}}"
-#        password: "{{password}}"
-#        force_basic_auth: yes
-#        validate_certs: no
-#      loop: "{{certNames2Check | dict2items  }}"
-#      register: cert 
-
     - name: debug of cert results
       debug:
         var: cert.results
       when: execDebug == "yes"
  
-    - debug:
-        msg: "{{item.json.commonName }} has expiration of {{ item.json.apiRawValues.expiration| replace(' GMT','') | to_datetime('%b %d %H:%M:%S %Y') }}"
-      when: execDebug == "yes"
-      loop: "{{cert.results }}"
-
     - name: Check certificate expiration
       set_fact:
         certNames2Renew: "{{ certNames2Renew |default({})| combine ( { item.item.json.name: { 'expiration': crtExpire , 'commonName': item.json.commonName, 'host': item.item.item.value.host, 'partition': item.item.item.value.partition  } }) }}"
       when:  crtExpire <= crtExpireCheckDate 
       loop: "{{cert.results }}"
-
-
-#    - name: Check certificate expiration
-#      set_fact:
-#        certNames2Renew: "{{ certNames2Renew | combine( {item.json.commonName : item.item.key } ) }}"
-#      when:  crtExpire <= crtExpireCheckDate 
-#      loop: "{{cert.results }}"
 
     - debug:
         msg: "certificate {{certNames2Renew }} is about to expire "
